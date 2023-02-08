@@ -1,0 +1,3 @@
+quoteProps = "preserve"
+semi = false
+trailingComma = "all"
