@@ -93,7 +93,9 @@ You should stick to the following syntax:
 
 -   No hard wrap
 
-    Write short sentences instead of dividing a sentence into several lines.
+    Try to write short sentences.
+    Break large sentences at natural places, such as after commas.
+    See [Semantic Linefeeds](https://rhodesmill.org/brandon/2012/one-sentence-per-line/).
 
 -   No trailing spaces
 
