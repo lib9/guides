@@ -37,7 +37,7 @@ Note also that we use `Copyright (c)` over `©` to avoid using a non-ASCII chara
 Identifiers must use only _ASCII_ letters `A-Za-z`, digits `0-9`, underscore `_`, and dollar sign `$`.
 
 | Naming style    | Category                                                             |
-| --------------- |--------------------------------------------------------------------- |
+| --------------- | -------------------------------------------------------------------- |
 | `PascalCase`    | class / decorator / enum / enum value / function / interface / types |
 | `camelCase`     | function / module alias / function parameter / property / variable   |
 | `CONSTANT_CASE` | module-level constant / static readonly property                     |
@@ -81,7 +81,7 @@ Identifiers must use only _ASCII_ letters `A-Za-z`, digits `0-9`, underscore `_`
 
 -   functions in `camelCase`
 
-    In some contexts, it can be practical to name a factory like the returned type.
+    It can be practical to give a factory the same name as its return type.
     In this exceptional case, you can use a function name in `PascalCase`.
 
     ```ts
@@ -92,7 +92,6 @@ Identifiers must use only _ASCII_ letters `A-Za-z`, digits `0-9`, underscore `_`
 -   `CONSTANT_CASE`
 
     `CONSTANT_CASE` indicates that a value is intended to be **Immutable**.
-    It may be used for values that are technically modifiable to indicate to users that they must not be modified.
 
     ```js
     // Even though per the rules of JavaScript UNIT_SUFFIXES is mutable,
@@ -103,7 +102,7 @@ Identifiers must use only _ASCII_ letters `A-Za-z`, digits `0-9`, underscore `_`
     }
     ```
 
-    In _TypeScript_, you can use `const` assertions to prevent accidental mutations:
+    In _TypeScript_, use `const` assertions to prevent accidental mutations:
 
     ```ts
     const UNIT_SUFFIXES = {
@@ -112,8 +111,8 @@ Identifiers must use only _ASCII_ letters `A-Za-z`, digits `0-9`, underscore `_`
     } as const
     ```
 
-    Note that, only symbols declared on the module level and static property of a class can use `CONSTANT_CASE`.
-    If a value can be instantiated more than once over the lifetime of the program (e.g., a local variable declared within a function, or a static field on a class nested in a function) then it must use `lowerCamelCase`.
+    Only symbols declared at module level or static property of a class can use `CONSTANT_CASE`.
+    Local variables declared within a function must use `lowerCamelCase`.
 
 -   Use single upper case character for type parameters
 
@@ -140,19 +139,20 @@ Identifiers must use only _ASCII_ letters `A-Za-z`, digits `0-9`, underscore `_`
 
 -   No redundancy
 
-    TypeScript expresses information in types,
-    so names should not be decorated with information that is included in the type.
+    As TypeScript expresses information in types,
+    names should not be decorated with information that is included in the type.
 
     Some concrete examples of this rule:
 
     -   No trailing or leading underscores for private properties or methods.
     -   No `opt_` prefix for optional parameters.
-    -   No special prefix for interfaces, unless it's idiomatic in its environment.
-    -   Suffixing `Observables` with `$` is a common external convention and can help resolve confusion between `Observables` and concrete values.
+    -   No special prefix for interfaces, unless it's idiomatic in its context.
+    -   Suffixing `Observables` with `$` is a common external convention.
+        This avoids any confusion between `Observables` and concrete values.
 
 -   React Components
 
-    When required by _JSX_, components must be `UpperCamelCase` no matter how the component is implemented (`function`, `class`, or `React.createClass`).
+    When required by _JSX_, components must use `UpperCamelCase`.
 
     ```diff
     - function goLink(props: GoLinkProps) { return <a href={...}>... }
@@ -162,7 +162,7 @@ Identifiers must use only _ASCII_ letters `A-Za-z`, digits `0-9`, underscore `_`
 ## Make documentation that actually adds information
 
 Use [`/** TSDoc */` comments](https://tsdoc.org/) to document your code.
-You should document all properties and methods whose purpose is not immediately obvious from their name.
+You should document all properties and methods that are not self-explanatory.
 
 -   Omit `@param` and `@returns` tags
 
@@ -180,7 +180,9 @@ You should document all properties and methods whose purpose is not immediately 
      function average(x: number, y: number): number { ... }
     ```
 
--   Don't declare types in `@param` or `@returns` blocks, don't write `@implements`, `@enum`, `@private`, `@override` etc. on code that uses the `implements`, `enum`, `private`, `override` etc.
+-   Don't declare types in `@param` or `@returns` blocks,
+    don't write `@implements`, `@enum`, `@private`, `@override` etc.
+    on code that uses the `implements`, `enum`, `private`, `override` etc.
 
 -   Use `@throws`
 
@@ -269,7 +271,7 @@ Comments have a bad reputation.
 According to their detractors, they are redundant with good code.
 While this is true for comments that restate what the code does,
 it is not true for comments that explain why the code is in the way it is.
-One of the best ways to find out if a code has enough comments is to read it after a few days and ask for reviews.
+To find out whether a code has enough comments, read it after a few days and request reviews.
 
 -   Explain high-level purpose
 
@@ -330,7 +332,7 @@ One of the best ways to find out if a code has enough comments is to read it aft
     -   **TODO**: task or feature to complete
     -   **WARNING**: code that could be misused
 
--   Use `// Comment.` instead of `/* Comment. */`
+-   Use inline `// Comment.` instead of multi-line `/* Comment. */`
 
     You can use `/* Comment. */` to add information in an expression.
     For example:
@@ -462,7 +464,7 @@ One of the best ways to find out if a code has enough comments is to read it aft
 -   Strings and Unicode
 
     For non-ASCII characters, use the actual Unicode character (e.g., `∞`).
-    For non-printable characters, the equivalent hex or Unicode escapes (e.g., `\u221e`) can be used along with an explanatory comment.
+    For non-printable characters, use a hex or Unicode escapes (e.g., `\u221e`).
 
     ```js
     // Perfectly clear, even without a comment.
@@ -943,7 +945,8 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   Assume prototype-less object literal
 
-    It is considered as a bad practice to call an inherited method of the `Object` prototype, as this method can be overridden.
+    It is considered as a bad practice to call an inherited method of the `Object` prototype,
+    as this method can be overridden.
     Moreover, an object literal can be created with a prototype set to null `Object.create(null)`.
     Thus, you should assume that an object literal doesn't inherit of the methods of `Object`.
 
@@ -957,7 +960,7 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   No methods, getters, and setters on object literals
 
-    If you really need methods, getters, or setters, then use a class and instantiate it instead.
+    If you really need methods, getters, or setters, then use a class.
 
     ```diff
     - const x = {
@@ -975,7 +978,7 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   Use object destructuring assignment
 
-    In some contexts, an object destructuring assignment can be easier to read than several assignments.
+    An object destructuring assignment can be easier to read.
 
     ```diff
     - const a = x.a
@@ -983,7 +986,7 @@ One of the best ways to find out if a code has enough comments is to read it aft
     + const { a, b } = x
     ```
 
-    In some context, this allows removing a variable:
+    Sometimes, this allows removing a variable:
 
     ```diff
     + function f({ a, b }) {
@@ -1241,7 +1244,8 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
     Use regular properties and methods instead.
 
-    You can use getters and setters if it makes the _API_ more familiar, or if a user might expect a property.
+    You can use getters and setters if it makes the _API_ more familiar,
+    or if a user might expect a property.
 
     ```ts
     class LinkedList {
@@ -1252,10 +1256,10 @@ One of the best ways to find out if a code has enough comments is to read it aft
     Getters and setters should mimic a property.
     In particular:
 
-    -   A getter must be a pure and deterministic function: its result is consistent and has no side effects.
-    -   The setter should modify the value returned by the getter with the value passed to the setter.
+    -   A getter must be a pure (no side effects) and deterministic function.
+    -   The setter should modify the value returned by the getter with the value passed to it.
 
-    Getters and setters are particularly useful for modifying the _API_ in a backward-compatible way.
+    Getters and setters are notably useful for modifying the _API_ in a backward-compatible way.
     For example, computing a property instead of storing it:
 
     ```diff
@@ -1290,8 +1294,10 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   Use relative import paths with extensions
 
-    Use relative imports `./foo` rather than absolute imports `path/to/foo` when referring to files within the same (logical) project.
-    Consider limiting the number of parent steps `../../../` as those can make module and path structures difficult to understand.
+    Use relative imports `./foo` rather than absolute imports `path/to/foo`
+    when referring to files within the same (logical) project.
+    Consider limiting the number of parent steps `../../../`
+    as those can make module and path structures difficult to understand.
 
     Use relative imports with extensions.
     The extension should end with `.js` or `.ts` (_Deno_).
@@ -1307,7 +1313,8 @@ One of the best ways to find out if a code has enough comments is to read it aft
     Instead, module imports give a name to the whole module.
     All symbols of the module are thus qualified with the attached module name.
     This makes the code more readable and provides autocompletion on all symbols in a module.
-    They also require less import churn (all symbols are available), fewer name collisions, and allow shorter names in the imported module.
+    They also require less import churn (all symbols are available), fewer name collisions,
+    and allow shorter names in the imported module.
     Module imports are particularly useful when using many different symbols from large APIs.
 
     ```js
@@ -1333,7 +1340,8 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   Use `import type`
 
-    All values that are only types (e.g. `type` and `interface`) must be imported with `import type` or `import { type ... }`.
+    All values that are only types (e.g. `type` and `interface`)
+    must be imported with `import type` or `import { type ... }`.
     This allows the use of modern bundlers such as _esbuild_.
 
 -   No `namespace`
@@ -1351,7 +1359,7 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   Treat modules, `enum`, and `class` like namespaces
 
-    When importing a module, access properties directly on the module object rather than passing the module around.
+    When importing a module, access its properties directly rather than passing the module around.
     This ensures that a module can be analyzed and optimized.
 
     ```diff
@@ -1375,7 +1383,7 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   No `export default`
 
-    This ensures import uniformity and avoids some historical incompatibilities between transpilers.
+    This ensures import uniformity and avoids historical incompatibilities between transpilers.
 
     ```diff
     -  export default function f() {}
@@ -1402,7 +1410,8 @@ One of the best ways to find out if a code has enough comments is to read it aft
     All exports must be free of side effects.
     This is a requirement for dead code elimination.
 
-    If a constant is built from a function call, the function must be preceded by the comment [`/*@__PURE__*/`](https://esbuild.github.io/api/#pure).
+    If a constant is built from a function call,
+    the function must be preceded by the comment [`/*@__PURE__*/`](https://esbuild.github.io/api/#pure).
     This informs the bundler that the call is pure.
 
     ```diff
@@ -1418,12 +1427,13 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   Type inference
 
-    Rely on type inference as implemented by the TypeScript compiler for all type expressions (variables, properties of object literals, arrow functions, ...)
+    Rely on type inference as implemented by the TypeScript compiler for all expressions.
     This simplifies code refactoring.
 
     However, an `export` must be explicitly typed if its type cannot be syntactically inferred.
     This allows every file to be type-checked separately.
-    An `export` is syntactically inferred if it is initialized with a literal value that is recursively composed only of literal values.
+    An `export` is syntactically inferred if it is initialized with a literal value
+    that is recursively composed only of literal values.
 
     ```diff
     // Type of `f()` cannot be syntactically inferred.
@@ -1456,7 +1466,7 @@ One of the best ways to find out if a code has enough comments is to read it aft
 -   Nullable type aliases
 
     Type aliases should not include `|null` or `|undefined` in a union type.
-    This typically indicates that null values are being passed around through too many layers of an application.
+    This typically indicates that null values are being passed around through too many layers.
     They also make it unclear when certain values may be missing from a type.
 
     Instead, code should only add `|null` or `|undefined` when the alias is actually used.
@@ -1475,7 +1485,8 @@ One of the best ways to find out if a code has enough comments is to read it aft
     Optional marker `?` indicates that a property or a parameter can be omitted.
     `|undefined` indicates that `undefined` is a valid value for the property or parameter.
     TypeScript implicitly adds `|undefined` to optional properties.
-    You should not rely on this implicit behavior and always add `|undefined` when it is a valid value for the property.
+    You should not rely on this implicit behavior
+    and always add `|undefined` when it is a valid value for the property.
 
     ```diff
     type Named = { name?: string }
@@ -1587,7 +1598,8 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   Use `readonly`
 
-    Mark properties that are never reassigned with the `readonly` modifier (these need not be deeply immutable).
+    Mark properties that are never reassigned with the `readonly` modifier.
+    These need not be deeply immutable.
 
     ```diff
     type Person = {
@@ -1614,12 +1626,15 @@ One of the best ways to find out if a code has enough comments is to read it aft
 
 -   Avoid mapped and conditional types
 
-    [Mapped types](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html) and [conditional types](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html) are advanced features.
+    [Mapped types](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html)
+    and [conditional types](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html)
+    are advanced features.
     They come with edge cases and make the code harder to understand.
 
     You should avoid using them and rely on the simplest type construct that can express your code.
     A few repetitions are often cheaper than the long-term cost of complex types.
-    Use the following [utility types](https://www.typescriptlang.org/docs/handbook/utility-types.html#instancetypetype) before resorting to mapped and conditional types: `Partial`, `Readonly`, and `Record`.
+    Use the following [utility types](https://www.typescriptlang.org/docs/handbook/utility-types.html#instancetypetype)
+    before resorting to mapped and conditional types: `Partial`, `Readonly`, and `Record`.
 
     Avoid the following utility types: `Pick`, `Omit`, `Exclude`, `Extract`, `NonNullable`, and `required`.
     They can usually be replaced by plain types.
@@ -1715,7 +1730,8 @@ One of the best ways to find out if a code has enough comments is to read it aft
     const p = Person({ name: "Hari Seldon" })
     ```
 
-    We use the _JSDoc_ tag `@phantom` to signal that the constant does not exist at runtime and thus must only be used in type contexts.
+    We use the _JSDoc_ tag `@phantom` to signal that the constant does not exist at runtime
+    and thus must only be used in type contexts.
 
     We chose the type `never` for our fake property.
     Nothing except a `never` value can be assigned to `never`.
